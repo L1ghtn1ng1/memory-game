@@ -1,0 +1,15 @@
+.header{
+    background-color: #0e2235;
+    color: aqua;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.scores{
+    display: flex;
+    gap: 20px;
+    margin-top: 10px;
+}
