@@ -3,18 +3,16 @@ import { useState, useEffect } from "react";
 import "../styles/CardList.css";
 import { createClient } from "pexels";
 
-const client = createClient(
-  "Lh7d02tNnI2oGGvj51InF2LibvFEmWRusDbckjnG1YfVV7qnzpveIfHK"
-);
+const apiKey = import.meta.env.VITE_API_KEY;
+const client = createClient(apiKey);
 
-function CardList({ saveScore }) {
+function CardList({ saveScore, query }) {
   const [cards, setCards] = useState([]);
-  const query = "snowboarding";
   useEffect(() => {
     client.photos.search({ query, per_page: 12, page: 1 }).then((response) => {
       setCards(response.photos);
     });
-  }, []);
+  }, [query]);
 
   const shuffleArray = (card) => {
     setCards((prevCards) => {
