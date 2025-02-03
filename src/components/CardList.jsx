@@ -8,34 +8,19 @@ const apiKey = import.meta.env.VITE_API_KEY;
 
 function CardList({ saveScore, query }) {
   const [cards, setCards] = useState([]);
-  // useEffect(() => {
-  //   client.photos.search({ query, per_page: 12, page: 1 }).then((response) => {
-  //     setCards(response.photos);
-  //   });
-  // }, [query]);
-  
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(`https://api.pexels.com/v1/search?query=${query}&per_page=12&page=1`, {
-          method: 'GET',
-          headers: {
-            Authorization: `Bearer ${apiKey}`, // Use your API key here
-          },
-          mode: 'cors', // Enable CORS mode for the request
-        });
-        if (response.ok) {
-          const data = await response.json();
-          setCards(data.photos); // Assuming the API returns photos in 'photos' field
-        } else {
-          console.error('Failed to fetch data:', response.status);
-        }
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-    fetchData();
-  }, [query]);  
+    fetch(
+      `https://api.unsplash.com/search/photos?query=${query}&orientation=portrait&per_page=12&client_id=${apiKey}`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        // Store the full photo objects in the state
+        setCards(data.results);
+      })
+      .catch((error) => console.error("Error fetching photos:", error));
+  }, [query]); // Depend on query to refetch when it changes
+
+  console.log(cards);
 
   const shuffleArray = (card) => {
     setCards((prevCards) => {
@@ -64,12 +49,7 @@ function CardList({ saveScore, query }) {
   function Card({ photo, handleClick }) {
     return (
       <div className="card">
-        <img
-          src={photo.src.portrait}
-          alt={photo.photographer}
-          className="picture"
-          onClick={handleClick}
-        />
+        <img src={photo.urls.regular} className="picture" onClick={handleClick} />
       </div>
     );
   }
