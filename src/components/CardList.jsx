@@ -3,14 +3,14 @@ import { useState, useEffect } from "react";
 import "../styles/CardList.css";
 // import { createClient } from "pexels";
 
-const apiKey = import.meta.env.VITE_API_KEY;
+// const apiKey = import.meta.env.VITE_API_KEY;
 // const client = createClient(apiKey);
 
 function CardList({ saveScore, query }) {
   const [cards, setCards] = useState([]);
   useEffect(() => {
     fetch(
-      `https://api.unsplash.com/search/photos?query=${query}&orientation=portrait&per_page=12&client_id=${apiKey}`
+      `https://api.unsplash.com/search/photos?query=${query}&orientation=portrait&per_page=12&client_id=gWI5rBrGlFWDiNBwl6wgdY1Ih3LQFLLTzzsCWyybyAM`
     )
       .then((response) => response.json())
       .then((data) => {
