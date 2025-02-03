@@ -1,18 +1,41 @@
 /* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
 import "../styles/CardList.css";
-import { createClient } from "pexels";
+// import { createClient } from "pexels";
 
 const apiKey = import.meta.env.VITE_API_KEY;
-const client = createClient(apiKey);
+// const client = createClient(apiKey);
 
 function CardList({ saveScore, query }) {
   const [cards, setCards] = useState([]);
+  // useEffect(() => {
+  //   client.photos.search({ query, per_page: 12, page: 1 }).then((response) => {
+  //     setCards(response.photos);
+  //   });
+  // }, [query]);
+  
   useEffect(() => {
-    client.photos.search({ query, per_page: 12, page: 1 }).then((response) => {
-      setCards(response.photos);
-    });
-  }, [query]);
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`https://api.pexels.com/v1/search?query=${query}&per_page=12&page=1`, {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${apiKey}`, // Use your API key here
+          },
+          mode: 'cors', // Enable CORS mode for the request
+        });
+        if (response.ok) {
+          const data = await response.json();
+          setCards(data.photos); // Assuming the API returns photos in 'photos' field
+        } else {
+          console.error('Failed to fetch data:', response.status);
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+    fetchData();
+  }, [query]);  
 
   const shuffleArray = (card) => {
     setCards((prevCards) => {
