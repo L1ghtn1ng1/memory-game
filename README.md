@@ -15,7 +15,7 @@ A fun and interactive memory game built with React! Click on images without repe
 🔧 Installation & Usage
 Clone the Repository
 ```
-git clone https://github.com/yourusername/memory-game.git
+git clone https://github.com/L1ghtn1ng1/memory-game.git
 cd memory-game
 ```
 Install Dependencies
